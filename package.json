@@ -1,0 +1,44 @@
+{
+  "name": "autolist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "concurrently -kr node-inspector 'nodemon --debug'"
+  },
+  "engines": {
+    "node": "6"
+  },
+  "author": "Tri Noensie",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "concurrently": "^3.5.0",
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "node-inspector": "^1.1.1",
+    "nodemon": "^1.12.1",
+    "webpack": "^3.8.1"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "react": "^16.0.0",
+    "styled-components": "^2.2.3"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src/"
+    ],
+    "verbose": true,
+    "ext": "js jsx json",
+    "events": {
+      "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+    }
+  }
+}
