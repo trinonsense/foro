@@ -1,8 +1,14 @@
-const express = require('express')
+import express from 'express'
+import mustacheExpress from 'mustache-express'
+import getHome from './routes/getHome'
 const app = express()
 
-app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/search', (req, res) => res.send('Hello World!'))
-app.get('/car/:id', (req, res) => res.send('Hello World!'))
+app.use(express.static('public'))
 
-app.listen(8000, () => console.log('dope shit'))
+app.engine('mustache', mustacheExpress())
+app.set('view engine', 'mustache')
+app.set('views', './src/views')
+
+app.get('/', getHome)
+
+app.listen(8000, () => console.log('🕺 The server is ready to party 🕺'))
