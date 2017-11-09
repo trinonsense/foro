@@ -1,6 +1,6 @@
 import express from 'express'
 import mustacheExpress from 'mustache-express'
-import getHome from './routes/getHome'
+import getHome from './home/getHome'
 const app = express()
 
 app.use(express.static('public'))
