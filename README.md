@@ -6,10 +6,3 @@
 2. Use correct node version: `nvm use`
 3. Install all dependencies: `npm i`
 4. Start app: `npm start`
-
-
-
-## Main Commands
-
-- start app: `npm start`
-- dev app: `npm run dev`
