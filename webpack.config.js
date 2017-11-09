@@ -2,7 +2,7 @@ module.exports = {
   entry: {
     home: './src/home/homeClient.js'
   },
-  devtool: 'eval',
+  devtool: 'cheap-module-eval-source-map',
   output: {
     filename: '[name].js'
   },
