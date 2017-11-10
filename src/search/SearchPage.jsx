@@ -1,6 +1,7 @@
 import React from 'react'
 import ResultCard from './ResultCard'
 import MakeModelForm from './MakeModelForm'
+import PriceForm from './PriceForm'
 
 export default class SearchPage extends React.PureComponent {
   render() {
@@ -12,6 +13,11 @@ export default class SearchPage extends React.PureComponent {
               makes={this.props.makes}
               make={this.props.query.make}
               model={this.props.query.model}
+            />
+
+            <PriceForm
+              min={this.props.query.price_min}
+              max={this.props.query.price_max}
             />
 
             <button type="submit">Search</button>
