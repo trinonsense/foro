@@ -1,10 +1,23 @@
 import React from 'react'
 import ResultCard from './ResultCard'
+import MakeModelForm from './MakeModelForm'
 
 export default class SearchPage extends React.PureComponent {
   render() {
     return (
       <div>
+        <div>
+          <form onSubmit={this.onSubmit}>
+            <MakeModelForm
+              makes={this.props.makes}
+              make={this.props.query.make}
+              model={this.props.query.model}
+            />
+
+            <button type="submit">Search</button>
+          </form>
+        </div>
+
         {this.state.results.map(result =>
           <div onClick={this.showResult} data-id={result.id} key={result.id}>
             {result.make} {result.model}
@@ -19,21 +32,36 @@ export default class SearchPage extends React.PureComponent {
   constructor(props) {
     super(props)
     this.showResult = this.showResult.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+
+    const {query} = this.props
     this.state = {
       page: 1,
       resultDetail: null,
-      results: this.filterResults(this.props.results),
+      results: this.filterResults(query.make, query.model, this.props.results),
       rawResults: this.props.results
     }
   }
 
-  filterResults(results) {
-    const {query} = this.props
-    if (!query.make) return results
+  onSubmit(e) {
+    e.preventDefault()
+
+    const data = {}
+    for (let field of new FormData(e.target)) {
+      data[field[0]] = field[1] || null
+    }
+
+    this.setState({
+      results: this.filterResults(data.make, data.model, this.state.rawResults)
+    })
+  }
+
+  filterResults(make, model, results) {
+    if (!make) return results
 
     return results.filter(result => {
-      const makeTest = result.make.toLowerCase() === query.make.toLowerCase()
-      const modelTest = modelPredicate(result.model, query.model)
+      const makeTest = result.make.toLowerCase() === make.toLowerCase()
+      const modelTest = modelPredicate(result.model, model)
       return makeTest && modelTest
     })
   }
