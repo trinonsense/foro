@@ -9,7 +9,7 @@ export default class HomePage extends React.PureComponent {
           <div>
             <label htmlFor="make">Make</label>
             <select name="make" id="make" value={this.state.make} onChange={this.updateMake}>
-              <option>---</option>
+              <option value="">---</option>
               {this.props.makes.map(make =>
                 <option value={make} key={make}>{make}</option>
               )}
@@ -20,7 +20,7 @@ export default class HomePage extends React.PureComponent {
             <label htmlFor="model">Model</label>
             <select name="model" id="model">
               {this.state.models.map(model => typeof model === 'string' ?
-                <option value={model} key={model}>{model}</option>
+                <option value="" key={model}>{model}</option>
                 :
                 <option value={model.Model_Name} key={model.Model_ID}>{model.Model_Name}</option>
               )}
@@ -29,10 +29,10 @@ export default class HomePage extends React.PureComponent {
 
           <div>
             <label>Price</label>
-            <label htmlFor="price-min">Min:</label>
-            <input name="price-min" id="price-min" type="text" />
-            <label htmlFor="price-max">Max:</label>
-            <input name="price-max" id="price-max" type="text" />
+            <label htmlFor="price_min">Min:</label>
+            <input name="price_min" id="price_min" type="text" />
+            <label htmlFor="price_max">Max:</label>
+            <input name="price_max" id="price_max" type="text" />
           </div>
 
           <button type="submit">Search</button>
@@ -54,10 +54,7 @@ export default class HomePage extends React.PureComponent {
 
   updateMake(event) {
     const make = event.target.value
-
-    if (make === '---') {
-      return this.setState(this.initialState)
-    }
+    if (!make) return this.setState(this.initialState)
 
     this.setState({
       make,
