@@ -11,7 +11,6 @@ export default class SearchPage extends React.PureComponent {
         <div>
           <form onSubmit={this.onSubmit}>
             <MakeModelForm
-              makes={this.props.makes}
               make={this.props.query.make}
               model={this.props.query.model}
             />
@@ -29,7 +28,7 @@ export default class SearchPage extends React.PureComponent {
 
         {this.state.results.map(result =>
           <div onClick={this.showResult} data-id={result.id} key={result.id}>
-            {result.make} {result.model}
+            {result.make} / {result.model} / {result.trim}
           </div>
         )}
 
@@ -43,55 +42,30 @@ export default class SearchPage extends React.PureComponent {
     this.showResult = this.showResult.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
 
-    const {query} = this.props
     this.state = {
       page: 1,
       resultDetail: null,
-      priceMin: this.props.query.price_min,
-      priceMax: this.props.query.price_max,
       isSearching: false,
-      results: this.filterResults(query.make, query.model, this.props.results),
-      rawResults: this.props.results
+      results: this.props.results
     }
   }
 
   onSubmit(e) {
     e.preventDefault()
-
-    const data = {}
-    for (let field of new FormData(e.target)) {
-      data[field[0]] = field[1] || null
-    }
-
     this.setState({isSearching: true})
 
     request
       .get('https://autolist-test.herokuapp.com/search')
-      .query({
-        limit: 50,
-        price_min: data.price_min,
-        price_max: data.price_max
-      })
+      .query(getFormData(e.target))
       .end((err, res) => {
         if (err) return console.log(err)
 
         this.setState({
           page: 1,
           isSearching: false,
-          rawResults: res.body.records,
-          results: this.filterResults(data.make, data.model, res.body.records)
+          results: res.body.records
         })
       })
-  }
-
-  filterResults(make, model, results) {
-    if (!make) return results
-
-    return results.filter(result => {
-      const makeTest = result.make.toLowerCase() === make.toLowerCase()
-      const modelTest = modelPredicate(result.model, model)
-      return makeTest && modelTest
-    })
   }
 
   showResult({target}) {
@@ -100,10 +74,10 @@ export default class SearchPage extends React.PureComponent {
   }
 }
 
-function modelPredicate(result, query) {
-  if (query) {
-    return result.toLowerCase() === query.toLowerCase()
-  } else {
-    return true
-  }
+function getFormData(form) {
+  const data = {}
+  const formData = new FormData(form)
+  formData.forEach((val, field) => { data[field] = val })
+
+  return data
 }
