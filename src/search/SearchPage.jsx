@@ -24,6 +24,17 @@ export default class SearchPage extends React.PureComponent {
 
             <YearForm />
 
+            <label>Condition:</label><br/>
+            <label>New
+              <input value="new" name="condition[]" type="checkbox"/>
+            </label><br/>
+            <label>Used
+              <input value="used" name="condition[]" type="checkbox"/>
+            </label><br/>
+            <label>Certified Pre-owned
+              <input value="certified pre-owned" name="condition[]" type="checkbox"/>
+            </label><br/>
+
             <button type="submit" disabled={this.state.isSearching}>
               {this.state.isSearching ? 'Loading...' : 'Search'}
             </button>
