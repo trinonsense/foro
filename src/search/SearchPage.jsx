@@ -3,6 +3,7 @@ import ResultCard from './ResultCard'
 import MakeModelForm from './MakeModelForm'
 import PriceForm from './PriceForm'
 import request from 'superagent'
+import qs from 'query-string'
 
 export default class SearchPage extends React.PureComponent {
   render() {
@@ -53,10 +54,13 @@ export default class SearchPage extends React.PureComponent {
   onSubmit(e) {
     e.preventDefault()
     this.setState({isSearching: true})
+    const data = getFormData(e.target)
+    const url = window.location.origin + window.location.pathname + '?' + qs.stringify(data)
+    window.history.replaceState(null, null, url)
 
     request
       .get('https://autolist-test.herokuapp.com/search')
-      .query(getFormData(e.target))
+      .query(data)
       .end((err, res) => {
         if (err) return console.log(err)
 
