@@ -1,6 +1,7 @@
 import React from 'react'
 import ResultCard from './ResultCard'
 import MakeModelForm from './MakeModelForm'
+import YearForm from './YearForm'
 import PriceForm from './PriceForm'
 import request from 'superagent'
 import qs from 'query-string'
@@ -21,7 +22,9 @@ export default class SearchPage extends React.PureComponent {
               max={this.props.query.price_max}
             />
 
-            <button type="submit">
+            <YearForm />
+
+            <button type="submit" disabled={this.state.isSearching}>
               {this.state.isSearching ? 'Loading...' : 'Search'}
             </button>
           </form>
