@@ -4,6 +4,7 @@ import MakeModelForm from './MakeModelForm'
 import YearForm from './YearForm'
 import PriceForm from './PriceForm'
 import request from 'superagent'
+import SearchResults from './SearchResults'
 import qs from 'query-string'
 
 export default class SearchPage extends React.PureComponent {
@@ -41,11 +42,10 @@ export default class SearchPage extends React.PureComponent {
           </form>
         </div>
 
-        {this.state.results.map(result =>
-          <div onClick={this.showResult} data-id={result.id} key={result.id}>
-            {result.make} / {result.model} / {result.trim}
-          </div>
-        )}
+        <SearchResults
+          results={this.state.results}
+          onClickResult={this.showResult}
+        />
 
         <ResultCard result={this.state.resultDetail} />
       </div>
