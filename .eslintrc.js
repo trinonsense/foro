@@ -11,6 +11,7 @@ module.exports = {
     }
   },
   rules: {
+    indent: 0,
   	'space-before-function-paren': ['error', 'never'],
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
