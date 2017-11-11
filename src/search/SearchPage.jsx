@@ -47,16 +47,16 @@ export default class SearchPage extends React.PureComponent {
       page: 1,
       resultDetail: null,
       isSearching: false,
-      results: this.props.results
+      results: []
     }
   }
 
-  onSubmit(e) {
-    e.preventDefault()
+  componentDidMount() {
+    this.getResults(this.props.query)
+  }
+
+  getResults(data) {
     this.setState({isSearching: true})
-    const data = getFormData(e.target)
-    const url = window.location.origin + window.location.pathname + '?' + qs.stringify(data)
-    window.history.replaceState(null, null, url)
 
     request
       .get('https://autolist-test.herokuapp.com/search')
@@ -66,14 +66,23 @@ export default class SearchPage extends React.PureComponent {
 
         this.setState({
           page: 1,
+          resultDetail: null,
           isSearching: false,
           results: res.body.records
         })
       })
   }
 
+  onSubmit(e) {
+    e.preventDefault()
+    const data = getFormData(e.target)
+    const url = window.location.origin + window.location.pathname + '?' + qs.stringify(data)
+    window.history.replaceState(null, null, url)
+    this.getResults(data)
+  }
+
   showResult({target}) {
-    const resultDetail = this.props.results.find(r => r.id.toString() === target.dataset.id)
+    const resultDetail = this.state.results.find(r => r.id.toString() === target.dataset.id)
     this.setState({resultDetail})
   }
 }
