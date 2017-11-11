@@ -10,55 +10,57 @@ export default class SearchPage extends React.PureComponent {
       <div>
         <SearchFilters query={this.props.query} />
 
-        <SearchResults
-          results={this.state.results}
-          onClickResult={this.showResult}
-        />
+        <div>
+          <SearchResults
+            results={this.state.results}
+            onClickResult={this.selectResult}
+          />
 
-        <ResultCard result={this.state.resultDetail} />
+          {this.state.isSearching ?
+            <div className="searching-overlay"></div>
+          : null}
+        </div>
+
+        <ResultCard vin={this.state.selectedResult} />
       </div>
     )
   }
 
   constructor(props) {
     super(props)
-    this.showResult = this.showResult.bind(this)
+    this.selectResult = this.selectResult.bind(this)
 
     this.state = {
       page: 1,
-      resultDetail: null,
+      selectedResult: null,
       isSearching: false,
       results: []
     }
   }
 
   componentDidMount() {
-    this.getResults(this.props.query)
+    this.search(this.props.query)
   }
 
-  getResults(data) {
+  search(query) {
     this.setState({isSearching: true})
 
     request
       .get('https://autolist-test.herokuapp.com/search')
-      .query(data)
+      .query(query)
       .end((err, res) => {
         if (err) return console.log(err)
 
         this.setState({
           page: 1,
-          resultDetail: null,
+          selectedResult: null,
           isSearching: false,
           results: res.body.records
         })
       })
   }
 
+  selectResult(vin) {
+    this.setState({selectedResult: vin})
   }
-  showResult({target}) {
-    const resultDetail = this.state.results.find(r => r.id.toString() === target.dataset.id)
-    this.setState({resultDetail})
-  }
-}
-
 }
