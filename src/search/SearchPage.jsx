@@ -2,6 +2,7 @@ import React from 'react'
 import ResultCard from './ResultCard'
 import MakeModelForm from './MakeModelForm'
 import PriceForm from './PriceForm'
+import request from 'superagent'
 
 export default class SearchPage extends React.PureComponent {
   render() {
@@ -20,7 +21,9 @@ export default class SearchPage extends React.PureComponent {
               max={this.props.query.price_max}
             />
 
-            <button type="submit">Search</button>
+            <button type="submit">
+              {this.state.isSearching ? 'Loading...' : 'Search'}
+            </button>
           </form>
         </div>
 
@@ -44,6 +47,9 @@ export default class SearchPage extends React.PureComponent {
     this.state = {
       page: 1,
       resultDetail: null,
+      priceMin: this.props.query.price_min,
+      priceMax: this.props.query.price_max,
+      isSearching: false,
       results: this.filterResults(query.make, query.model, this.props.results),
       rawResults: this.props.results
     }
@@ -57,9 +63,25 @@ export default class SearchPage extends React.PureComponent {
       data[field[0]] = field[1] || null
     }
 
-    this.setState({
-      results: this.filterResults(data.make, data.model, this.state.rawResults)
-    })
+    this.setState({isSearching: true})
+
+    request
+      .get('https://autolist-test.herokuapp.com/search')
+      .query({
+        limit: 50,
+        price_min: data.price_min,
+        price_max: data.price_max
+      })
+      .end((err, res) => {
+        if (err) return console.log(err)
+
+        this.setState({
+          page: 1,
+          isSearching: false,
+          rawResults: res.body.records,
+          results: this.filterResults(data.make, data.model, res.body.records)
+        })
+      })
   }
 
   filterResults(make, model, results) {

@@ -4,7 +4,7 @@ export default class PriceForm extends React.PureComponent {
   render() {
     return (
       <div>
-        <label>Price</label>
+        <label>Price </label>
         <label htmlFor="price_min">Min:</label>
         <input name="price_min" id="price_min" type="text" defaultValue={this.props.min} />
         <label htmlFor="price_max">Max:</label>
