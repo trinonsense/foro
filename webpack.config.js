@@ -1,7 +1,8 @@
 module.exports = {
   entry: {
     home: './src/home/homeClient.js',
-    search: './src/search/searchClient.js'
+    search: './src/search/searchClient.js',
+    vehicle: './src/vehicle/vehicleClient.js'
   },
   devtool: 'cheap-module-eval-source-map',
   output: {
