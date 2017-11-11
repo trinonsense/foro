@@ -1,8 +1,6 @@
 import React from 'react'
 import ResultCard from './ResultCard'
-import MakeModelForm from './MakeModelForm'
-import YearForm from './YearForm'
-import PriceForm from './PriceForm'
+import SearchFilters from './SearchFilters'
 import request from 'superagent'
 import SearchResults from './SearchResults'
 import qs from 'query-string'
@@ -11,36 +9,10 @@ export default class SearchPage extends React.PureComponent {
   render() {
     return (
       <div>
-        <div>
-          <form onSubmit={this.onSubmit}>
-            <MakeModelForm
-              make={this.props.query.make}
-              model={this.props.query.model}
-            />
-
-            <PriceForm
-              min={this.props.query.price_min}
-              max={this.props.query.price_max}
-            />
-
-            <YearForm />
-
-            <label>Condition:</label><br/>
-            <label>New
-              <input value="new" name="condition[]" type="checkbox"/>
-            </label><br/>
-            <label>Used
-              <input value="used" name="condition[]" type="checkbox"/>
-            </label><br/>
-            <label>Certified Pre-owned
-              <input value="certified pre-owned" name="condition[]" type="checkbox"/>
-            </label><br/>
-
-            <button type="submit" disabled={this.state.isSearching}>
-              {this.state.isSearching ? 'Loading...' : 'Search'}
-            </button>
-          </form>
-        </div>
+        <SearchFilters
+          query={this.props.query}
+          onSubmit={this.onSubmit}
+        />
 
         <SearchResults
           results={this.state.results}
