@@ -6,7 +6,7 @@ export default class SearchFilters extends React.PureComponent {
   render() {
     return (
       <div>
-        <form onSubmit={this.props.onSubmit}>
+        <form action="/search">
           <MakeModelForm
             make={this.props.query.make}
             model={this.props.query.model}

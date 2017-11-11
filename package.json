@@ -33,7 +33,6 @@
   "dependencies": {
     "express": "^4.16.2",
     "mustache-express": "^1.2.5",
-    "query-string": "^5.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "styled-components": "^2.2.3",

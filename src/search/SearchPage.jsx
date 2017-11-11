@@ -3,16 +3,12 @@ import ResultCard from './ResultCard'
 import SearchFilters from './SearchFilters'
 import request from 'superagent'
 import SearchResults from './SearchResults'
-import qs from 'query-string'
 
 export default class SearchPage extends React.PureComponent {
   render() {
     return (
       <div>
-        <SearchFilters
-          query={this.props.query}
-          onSubmit={this.onSubmit}
-        />
+        <SearchFilters query={this.props.query} />
 
         <SearchResults
           results={this.state.results}
@@ -27,7 +23,6 @@ export default class SearchPage extends React.PureComponent {
   constructor(props) {
     super(props)
     this.showResult = this.showResult.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
 
     this.state = {
       page: 1,
@@ -59,22 +54,11 @@ export default class SearchPage extends React.PureComponent {
       })
   }
 
-  onSubmit(e) {
-    e.preventDefault()
-    const data = getFormData(e.target)
-    window.location.search = '?' + qs.stringify(data)
   }
-
   showResult({target}) {
     const resultDetail = this.state.results.find(r => r.id.toString() === target.dataset.id)
     this.setState({resultDetail})
   }
 }
 
-function getFormData(form) {
-  const data = {}
-  const formData = new FormData(form)
-  formData.forEach((val, field) => { data[field] = val })
-
-  return data
 }
