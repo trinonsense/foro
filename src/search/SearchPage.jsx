@@ -90,9 +90,7 @@ export default class SearchPage extends React.PureComponent {
   onSubmit(e) {
     e.preventDefault()
     const data = getFormData(e.target)
-    const url = window.location.origin + window.location.pathname + '?' + qs.stringify(data)
-    window.history.replaceState(null, null, url)
-    this.getResults(data)
+    window.location.search = '?' + qs.stringify(data)
   }
 
   showResult({target}) {
