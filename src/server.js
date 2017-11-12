@@ -4,8 +4,10 @@ import getHome from './home/getHome'
 import getSearch from './search/getSearch'
 import getVehicle from './vehicle/getVehicle'
 import compression from 'compression'
+import morgan from 'morgan'
 const app = express()
 
+app.use(morgan('dev'))
 app.use(compression())
 app.use(express.static('public'))
 
