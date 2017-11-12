@@ -6,25 +6,25 @@ export default class MakeModelForm extends React.PureComponent {
   render() {
     return (
       <div>
-        <div>
-          <label htmlFor="make">Make</label>
-          <select name="make" id="make" value={this.state.make} onChange={this.updateMake}>
+        <fieldset>
+          <h4>Make</h4>
+          <select name="make" value={this.state.make} onChange={this.updateMake}>
             <option value="">Any</option>
             {makes.map(make =>
               <option value={make} key={make}>{make}</option>
             )}
           </select>
-        </div>
+        </fieldset>
 
-        <div>
-          <label htmlFor="model">Model</label>
-          <select name="model" id="model" value={this.state.model} onChange={this.updateModel}>
+        <fieldset>
+          <h4>Model</h4>
+          <select name="model" value={this.state.model} onChange={this.updateModel}>
             <option value="">Any</option>
             {this.state.models.map(model =>
               <option value={model} key={model}>{model}</option>
             )}
           </select>
-        </div>
+        </fieldset>
       </div>
     )
   }

@@ -114,7 +114,6 @@ const Layout = styled.div`
   margin-right: auto;
   display: flex;
 `
-
 const Heading = styled.h1`
   margin: 0 0 16px;
 
@@ -130,12 +129,9 @@ const Heading = styled.h1`
     margin-bottom: 3px;
   }
 `
-
 const Filters = styled.div`
-  margin-right: 32px;
   position: fixed;
 `
-
 const Triangle = styled.span`
   width: 0;
   height: 0;
@@ -154,27 +150,24 @@ const Triangle = styled.span`
 const FilterPanelToggle = styled.button`
   margin-bottom: 8px;
   font-size: 80%;
+  width: 100%;
 
   .copy {
     display: inline-block;
     margin-left: 4px;
   }
 `
-
 const Results = styled.div`
   position: relative;
   flex-grow: 1;
-  margin-left: ${p => p.left ? '240px' : '140px'};
-
+  margin-left: ${p => p.left ? '250px' : '130px'};
 `
-
 const SearchLoader = styled.h2`
   position: absolute;
   top: 10vh;
   width: 100%;
   text-align: center;
 `
-
 const Preview = styled.div``
 const VehicleLoader = styled.div``
 const PreviewPanelToggle = styled.div``
