@@ -1,45 +1,47 @@
 import React from 'react'
 import MakeModelForm from './MakeModelForm'
 import PriceForm from './PriceForm'
+import styled from 'styled-components'
 
 export default class SearchFilters extends React.PureComponent {
   render() {
     return (
       <div>
-        <form action="/search">
-          <MakeModelForm
-            make={this.props.query.make}
-            model={this.props.query.model}
-          />
+        <form action="/search" className="pure-form">
+          <fieldset>
+            <MakeModelForm
+              make={this.props.query.make}
+              model={this.props.query.model}
+            />
 
-          <PriceForm
-            min={this.props.query.price_min}
-            max={this.props.query.price_max}
-          />
+            <PriceForm
+              min={this.props.query.price_min}
+              max={this.props.query.price_max}
+            />
 
-          <div>
-            Year
-            <label htmlFor="year_min"> Min</label>
-            <input id="year_min" name="year_min" type="text"/>
+            <div>
+              <h4>Year</h4>
+              <label>Min: <input name="year_min" type="text" size="4" maxLength="4" /> </label>
+              <label>Max: <input name="year_max" type="text" size="4" maxLength="4" /> </label>
+            </div>
 
-            <label htmlFor="year_max">Max</label>
-            <input type="text" id="year_max" name="year_max"/>
-          </div>
+            <div>
+              <h4>Condition:</h4>
+              <label>New <input value="new" name="condition[]" type="checkbox"/></label><br/>
+              <label>Used <input value="used" name="condition[]" type="checkbox"/></label><br/>
+              <label>Certified Pre-owned <input value="certified pre-owned" name="condition[]" type="checkbox"/></label>
+            </div>
 
-          <label>Condition:</label><br/>
-          <label>New
-            <input value="new" name="condition[]" type="checkbox"/>
-          </label><br/>
-          <label>Used
-            <input value="used" name="condition[]" type="checkbox"/>
-          </label><br/>
-          <label>Certified Pre-owned
-            <input value="certified pre-owned" name="condition[]" type="checkbox"/>
-          </label><br/>
-
-          <button type="submit">Search</button>
+            <SearchButton type="submit" className="pure-button pure-button-primary">
+              Search
+            </SearchButton>
+          </fieldset>
         </form>
       </div>
     )
   }
 }
+
+const SearchButton = styled.button`
+  width: 100%;
+`
