@@ -10,10 +10,15 @@ export default class SearchPage extends React.PureComponent {
     return (
       <Layout>
         <Filters visible={this.state.visibleFilters}>
-          <Heading>FORO</Heading>
+          <Heading>
+            <a href="/">
+              <img src="/images/logo.png" alt="Foro Logo"/>
+              FORO
+            </a>
+          </Heading>
           <FilterPanelToggle className="pure-button" onClick={this.toggleFilters}>
             <Triangle left={this.state.visibleFilters} />
-            <div className="copy">{this.state.visibleFilters ? 'Hide' : 'Show'} filters</div>
+            <span className="copy">{this.state.visibleFilters ? 'Hide' : 'Show'} Filters</span>
           </FilterPanelToggle>
 
           {this.state.visibleFilters ?
@@ -112,6 +117,18 @@ const Layout = styled.div`
 
 const Heading = styled.h1`
   margin: 0 0 16px;
+
+  a {
+    font-family: 'Roboto',sans-serif;
+    color: black;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    width: 80px;
+    margin-bottom: 3px;
+  }
 `
 
 const Filters = styled.div`
@@ -123,33 +140,35 @@ const Triangle = styled.span`
   width: 0;
   height: 0;
   display: inline-block;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
   margin-bottom: 1px;
 
   transition: transform 200ms;
   ${p => p.left ?
-    'border-right: 8px solid black;'
+    'border-right: 6px solid black;'
     :
-    'border-left: 8px solid black;'
+    'border-left: 6px solid black;'
   }
 `
 const FilterPanelToggle = styled.button`
   margin-bottom: 8px;
+  font-size: 80%;
 
   .copy {
     display: inline-block;
-    margin-left: 8px;
+    margin-left: 4px;
   }
 `
 
 const Results = styled.div`
   position: relative;
   flex-grow: 1;
-  margin-left: 240px;
+  margin-left: ${p => p.left ? '240px' : '140px'};
+
 `
 
-const SearchLoader = styled.p`
+const SearchLoader = styled.h2`
   position: absolute;
   top: 10vh;
   width: 100%;
