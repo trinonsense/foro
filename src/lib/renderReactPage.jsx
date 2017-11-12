@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
+import BaseComponent from './BaseComponent'
 
 export default function renderReactPage(res, {PageComponent, clientScript, reactData = {}, templateData}) {
   if (!clientScript) throw new Error('missing client script')
@@ -7,6 +8,10 @@ export default function renderReactPage(res, {PageComponent, clientScript, react
   res.render('react-page', Object.assign({
     clientScript,
     reactData: JSON.stringify(reactData),
-    reactRoot: ReactDOMServer.renderToString(<PageComponent {...reactData} />)
+    reactRoot: ReactDOMServer.renderToString(
+      <BaseComponent>
+        <PageComponent {...reactData} />
+      </BaseComponent>
+    )
   }, templateData))
 }

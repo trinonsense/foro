@@ -3,8 +3,10 @@ import mustacheExpress from 'mustache-express'
 import getHome from './home/getHome'
 import getSearch from './search/getSearch'
 import getVehicle from './vehicle/getVehicle'
+import compression from 'compression'
 const app = express()
 
+app.use(compression())
 app.use(express.static('public'))
 
 app.engine('mustache', mustacheExpress())
