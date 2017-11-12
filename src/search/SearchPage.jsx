@@ -1,5 +1,5 @@
 import React from 'react'
-import ResultCard from './ResultCard'
+import ResultPreview from './ResultPreview'
 import SearchFilters from './SearchFilters'
 import request from 'superagent'
 import SearchResults from './SearchResults'
@@ -21,7 +21,13 @@ export default class SearchPage extends React.PureComponent {
           : null}
         </div>
 
-        <ResultCard vin={this.state.selectedResult} />
+        <div>
+          <ResultPreview result={this.state.selectedResult} />
+
+          {this.state.isFetchingVehicle ?
+            <div className="fetching-overlay"></div>
+          : null}
+        </div>
       </div>
     )
   }
@@ -33,6 +39,7 @@ export default class SearchPage extends React.PureComponent {
     this.state = {
       page: 1,
       selectedResult: null,
+      isFetchingVehicle: false,
       isSearching: false,
       results: []
     }
@@ -44,7 +51,6 @@ export default class SearchPage extends React.PureComponent {
 
   search(query) {
     this.setState({isSearching: true})
-
     request
       .get('https://autolist-test.herokuapp.com/search')
       .query(query)
@@ -61,6 +67,17 @@ export default class SearchPage extends React.PureComponent {
   }
 
   selectResult(vin) {
-    this.setState({selectedResult: vin})
+    this.setState({isFetchingVehicle: true})
+    request
+      .get('/vehicle/' + vin)
+      .accept('json')
+      .end((err, res) => {
+        if (err) return console.log(err)
+
+        this.setState({
+          isFetchingVehicle: false,
+          selectedResult: res.body
+        })
+      })
   }
 }
