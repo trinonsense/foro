@@ -87,6 +87,7 @@ export default class SearchPage extends React.PureComponent {
     this.setState({
       visiblePreview: true,
       visibleFilters: false,
+      selectedResult: {vin},
       isFetchingVehicle: true
     })
 

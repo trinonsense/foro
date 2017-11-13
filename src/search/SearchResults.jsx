@@ -8,23 +8,25 @@ export default class SearchResults extends React.PureComponent {
       <Results>
         {this.props.results.map(result =>
           <Result onClick={this.onClickResult} data-vin={result.vin} key={result.id}>
-            <FluidContainer ratio="16:9">
-              <LazyLoad true>
-                <Thumb src={result.primary_photo_url} />
-              </LazyLoad>
-            </FluidContainer>
-            <ResultInfo>
-              <div>
-                <Info>{result.year} {result.make} <Condition>{result.condition}</Condition> </Info>
-                <Model>{result.model}</Model>
-                <Info>{result.trim}</Info>
-                <Info>{result.display_color}</Info>
-              </div>
-              <div>
-                <Mileage>{result.mileage}</Mileage>
-                <Price>{result.price}</Price>
-              </div>
-            </ResultInfo>
+            <ResultHighlight highlight={this.props.selected.vin === result.vin}>
+              <FluidContainer ratio="16:9">
+                <LazyLoad true>
+                  <Thumb src={result.primary_photo_url} />
+                </LazyLoad>
+              </FluidContainer>
+              <ResultInfo>
+                <div>
+                  <Info>{result.year} {result.make} <Condition>{result.condition}</Condition> </Info>
+                  <Model>{result.model}</Model>
+                  <Info>{result.trim}</Info>
+                  <Info>{result.display_color}</Info>
+                </div>
+                <div>
+                  <Mileage>{result.mileage}</Mileage>
+                  <Price>{result.price}</Price>
+                </div>
+              </ResultInfo>
+            </ResultHighlight>
           </Result>
         )}
       </Results>
@@ -41,6 +43,10 @@ export default class SearchResults extends React.PureComponent {
   }
 }
 
+SearchResults.defaultProps = {
+  selected: {}
+}
+
 const Results = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -53,6 +59,9 @@ const Result = styled.div`
   box-sizing: border-box;
   padding-right: 20px;
   padding-bottom: 20px;
+`
+const ResultHighlight = styled.div`
+  ${p => p.highlight && 'border: 10px solid #0078e7;'}
 `
 const FluidContainer = styled.div`
   position: relative;
