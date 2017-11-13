@@ -1,5 +1,4 @@
 import React from 'react'
-import ResultPreview from './ResultPreview'
 import SearchFilters from './SearchFilters'
 import request from 'superagent'
 import SearchResults from './SearchResults'
@@ -28,14 +27,10 @@ export default class SearchPage extends React.PureComponent {
           : null}
         </Filters>
 
-        <Results left={this.state.visibleFilters} right={this.state.visiblePreview}>
-          <SearchResults
-            results={this.state.results}
-            selected={this.state.selectedResult}
-            onClickResult={this.previewResult}
-          />
+        <Results full={!this.state.visibleFilters}>
+          <SearchResults results={this.state.results} />
 
-          {!this.state.total && !this.state.isSearching?
+          {!this.state.total && !this.state.isSearching ?
             <SearchLoader>Sorry, no cars found</SearchLoader>
           : null}
 
@@ -43,31 +38,18 @@ export default class SearchPage extends React.PureComponent {
             <SearchLoader>Searching Cars...</SearchLoader>
           : null}
         </Results>
-
-        <Preview visible={this.state.visiblePreview}>
-          <PreviewPanelToggle />
-          <ResultPreview result={this.state.selectedResult} />
-
-          {this.state.isFetchingVehicle ?
-            <VehicleLoader>Loading Car</VehicleLoader>
-          : null}
-        </Preview>
       </Layout>
     )
   }
 
   constructor(props) {
     super(props)
-    this.previewResult = this.previewResult.bind(this)
     this.toggleFilters = this.toggleFilters.bind(this)
 
     this.state = {
       page: 0,
-      selectedResult: undefined,
-      isFetchingVehicle: false,
       isSearching: true,
       visibleFilters: true,
-      visiblePreview: false,
       results: []
     }
   }
@@ -116,29 +98,6 @@ export default class SearchPage extends React.PureComponent {
     if (docHeight - scrollPosition <= threshold) this.search()
   }
 
-  previewResult(vin) {
-    if (this.state.selectedResult && this.state.selectedResult.vin === vin) return
-
-    this.setState({
-      visiblePreview: true,
-      visibleFilters: false,
-      selectedResult: {vin},
-      isFetchingVehicle: true
-    })
-
-    request
-      .get('/vehicle/' + vin)
-      .accept('json')
-      .end((err, res) => {
-        if (err) return console.log(err)
-
-        this.setState({
-          isFetchingVehicle: false,
-          selectedResult: res.body
-        })
-      })
-  }
-
   toggleFilters() {
     this.setState({visibleFilters: !this.state.visibleFilters})
   }
@@ -149,7 +108,6 @@ const Layout = styled.div`
   max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
 `
 const Heading = styled.h1`
   margin: 0 0 16px;
@@ -197,7 +155,7 @@ const FilterPanelToggle = styled.button`
 const Results = styled.div`
   position: relative;
   flex-grow: 1;
-  margin-left: ${p => p.left ? '250px' : '130px'};
+  margin-left: ${p => p.full ? '130px' : '250px'};
 `
 const SearchLoader = styled.h2`
   position: absolute;
@@ -205,6 +163,3 @@ const SearchLoader = styled.h2`
   width: 100%;
   text-align: center;
 `
-const Preview = styled.div``
-const VehicleLoader = styled.div``
-const PreviewPanelToggle = styled.div``

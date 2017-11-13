@@ -7,39 +7,28 @@ export default class SearchResults extends React.PureComponent {
     return (
       <Results>
         {this.props.results.map(result =>
-          <Result onClick={this.onClickResult} data-vin={result.vin} key={result.id}>
-            <ResultHighlight highlight={this.props.selected.vin === result.vin}>
-              <FluidContainer ratio="16:9">
-                <LazyLoad true>
-                  <Thumb src={result.primary_photo_url} />
-                </LazyLoad>
-              </FluidContainer>
-              <ResultInfo>
-                <div>
-                  <Info>{result.year} {result.make} <Condition>{result.condition}</Condition> </Info>
-                  <Model>{result.model}</Model>
-                  <Info>{result.trim}</Info>
-                  <Info>{result.display_color}</Info>
-                </div>
-                <div>
-                  <Mileage>{result.mileage}</Mileage>
-                  <Price>{result.price}</Price>
-                </div>
-              </ResultInfo>
-            </ResultHighlight>
+          <Result href={'/vehicle/' + result.vin} target="_blank" key={result.id}>
+            <FluidContainer ratio="16:9">
+              <LazyLoad true>
+                <Thumb src={result.primary_photo_url} />
+              </LazyLoad>
+            </FluidContainer>
+            <ResultInfo>
+              <div>
+                <Info>{result.year} {result.make} <Condition>{result.condition}</Condition> </Info>
+                <Model>{result.model}</Model>
+                <Info>{result.trim}</Info>
+                <Info>{result.display_color}</Info>
+              </div>
+              <div>
+                <Mileage>{result.mileage}</Mileage>
+                <Price>{result.price}</Price>
+              </div>
+            </ResultInfo>
           </Result>
         )}
       </Results>
     )
-  }
-
-  constructor(props) {
-    super(props)
-    this.onClickResult = this.onClickResult.bind(this)
-  }
-
-  onClickResult(e) {
-    this.props.onClickResult(e.currentTarget.dataset.vin)
   }
 }
 
@@ -53,15 +42,14 @@ const Results = styled.div`
   justify-content: space-between;
   margin-right: -20px;
 `
-const Result = styled.div`
+const Result = styled.a`
+  display: block;
   width: 50%;
-  cursor: pointer;
   box-sizing: border-box;
   padding-right: 20px;
   padding-bottom: 20px;
-`
-const ResultHighlight = styled.div`
-  ${p => p.highlight && 'border: 10px solid #0078e7;'}
+  text-decoration: none;
+  color: black;
 `
 const FluidContainer = styled.div`
   position: relative;
