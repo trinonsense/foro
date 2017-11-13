@@ -35,6 +35,10 @@ export default class SearchPage extends React.PureComponent {
             onClickResult={this.previewResult}
           />
 
+          {this.state.noResults ?
+            <SearchLoader>Sorry, no cars found</SearchLoader>
+          : null}
+
           {this.state.isSearching ?
             <SearchLoader>Searching Cars...</SearchLoader>
           : null}
@@ -84,6 +88,7 @@ export default class SearchPage extends React.PureComponent {
         this.setState({
           page,
           isSearching: false,
+          noResults: !res.body.total_count,
           results: this.state.results.concat(res.body.records)
         })
       })
