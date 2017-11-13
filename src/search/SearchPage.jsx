@@ -35,7 +35,7 @@ export default class SearchPage extends React.PureComponent {
             onClickResult={this.previewResult}
           />
 
-          {this.state.noResults ?
+          {!this.state.total && !this.state.isSearching?
             <SearchLoader>Sorry, no cars found</SearchLoader>
           : null}
 
@@ -74,7 +74,14 @@ export default class SearchPage extends React.PureComponent {
 
   componentDidMount() {
     this.search()
-    window.addEventListener('scroll', debounce(this.infiniteSearch.bind(this), 200))
+    this.debouncedInfiniteSearch = debounce(this.infiniteSearch.bind(this), 200)
+    window.addEventListener('scroll', this.debouncedInfiniteSearch)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.results.length >= this.state.total) {
+      window.removeEventListener('scroll', this.debouncedInfiniteSearch)
+    }
   }
 
   search() {
@@ -88,7 +95,7 @@ export default class SearchPage extends React.PureComponent {
         this.setState({
           page,
           isSearching: false,
-          noResults: !res.body.total_count,
+          total: res.body.total_count,
           results: this.state.results.concat(res.body.records)
         })
       })
