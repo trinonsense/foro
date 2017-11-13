@@ -19,4 +19,13 @@ app.get('/', getHome)
 app.get('/search', getSearch)
 app.get('/vehicle/:vin', getVehicle)
 
+app.use((req, res) => {
+  res.status(404).render('error', {message: 'Nothing here'})
+})
+
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).render('error', {error: err.stack})
+})
+
 app.listen(8000, () => console.log('🕺 The server is ready to party 🕺'))

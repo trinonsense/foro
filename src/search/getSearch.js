@@ -1,8 +1,8 @@
 import renderReactPage from '../lib/renderReactPage'
 import SearchPage from './SearchPage'
 
-export default function getSearch(req, res) {
-  renderReactPage(res, {
+export default function getSearch(req, res, next) {
+  renderReactPage(res, next, {
     PageComponent: SearchPage,
     clientScript: 'search.js',
     reactData: {query: req.query},
