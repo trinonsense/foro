@@ -4,6 +4,8 @@ import SearchFilters from './SearchFilters'
 import request from 'superagent'
 import SearchResults from './SearchResults'
 import styled from 'styled-components'
+import debounce from 'lodash.debounce'
+import assign from 'lodash.assign'
 
 export default class SearchPage extends React.PureComponent {
   render() {
@@ -56,7 +58,7 @@ export default class SearchPage extends React.PureComponent {
     this.toggleFilters = this.toggleFilters.bind(this)
 
     this.state = {
-      page: 1,
+      page: 0,
       selectedResult: undefined,
       isFetchingVehicle: false,
       isSearching: true,
@@ -67,18 +69,39 @@ export default class SearchPage extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.search()
+    window.addEventListener('scroll', debounce(this.infiniteSearch.bind(this), 200))
+  }
+
+  search() {
+    const page = this.state.page + 1
     request
       .get('https://autolist-test.herokuapp.com/search')
-      .query(this.props.query)
+      .query(assign({page}, this.props.query))
       .end((err, res) => {
         if (err) return console.log(err)
 
         this.setState({
-          page: 1,
+          page,
           isSearching: false,
-          results: res.body.records
+          results: this.state.results.concat(res.body.records)
         })
       })
+  }
+
+  infiniteSearch() {
+    if (this.state.isSearching) return
+
+    const {document} = window
+    const threshold = window.innerHeight
+    const scrollPosition = (window.scrollY || window.pageYOffset) + window.innerHeight
+    const docHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    )
+
+    if (docHeight - scrollPosition <= threshold) this.search()
   }
 
   previewResult(vin) {
