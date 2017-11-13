@@ -37,6 +37,7 @@
     "mustache-express": "^1.2.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-lazyload": "^2.3.0",
     "styled-components": "^2.2.3",
     "superagent": "^3.8.1"
   },

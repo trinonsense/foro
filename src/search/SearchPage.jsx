@@ -29,6 +29,7 @@ export default class SearchPage extends React.PureComponent {
         <Results left={this.state.visibleFilters} right={this.state.visiblePreview}>
           <SearchResults
             results={this.state.results}
+            selected={this.state.selectedResult}
             onClickResult={this.previewResult}
           />
 
