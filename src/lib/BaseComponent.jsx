@@ -17,4 +17,9 @@ const BaseStyles = styled.div`
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', sans-serif;
   }
+
+  padding: 20px;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
 `

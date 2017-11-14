@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import LazyLoad from 'react-lazyload'
+import Tag from '../lib/Tag'
 
 export default class SearchResults extends React.PureComponent {
   render() {
@@ -15,7 +16,7 @@ export default class SearchResults extends React.PureComponent {
             </FluidContainer>
             <ResultInfo>
               <div>
-                <Info>{result.year} {result.make} <Condition>{result.condition}</Condition> </Info>
+                <Info>{result.year} {result.make} <Tag>{result.condition}</Tag> </Info>
                 <Model>{result.model}</Model>
                 <Info>{result.trim}</Info>
                 <Info>{result.display_color}</Info>
@@ -30,10 +31,6 @@ export default class SearchResults extends React.PureComponent {
       </Results>
     )
   }
-}
-
-SearchResults.defaultProps = {
-  selected: {}
 }
 
 const Results = styled.div`
@@ -88,16 +85,4 @@ const Model = styled.h2`
 `
 const Mileage = Info.extend`
   text-align: right;
-`
-const Condition = styled.span`
-  display: inline-block;
-  background-color: #adadad;
-  color: white;
-  padding: 2px 5px;
-  border-radius: 4px;
-  position: relative;
-  top: -1px;
-  margin-left: 6px;
-  font-size: 80%;
-  text-transform: capitalize;
 `

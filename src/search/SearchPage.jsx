@@ -5,6 +5,7 @@ import SearchResults from './SearchResults'
 import styled from 'styled-components'
 import debounce from 'lodash.debounce'
 import assign from 'lodash.assign'
+import Triangle from '../lib/Triangle'
 
 export default class SearchPage extends React.PureComponent {
   render() {
@@ -103,12 +104,7 @@ export default class SearchPage extends React.PureComponent {
   }
 }
 
-const Layout = styled.div`
-  padding: 20px;
-  max-width: 1440px;
-  margin-left: auto;
-  margin-right: auto;
-`
+const Layout = styled.div``
 const Heading = styled.h1`
   margin: 0 0 16px;
 
@@ -126,21 +122,6 @@ const Heading = styled.h1`
 `
 const Filters = styled.div`
   position: fixed;
-`
-const Triangle = styled.span`
-  width: 0;
-  height: 0;
-  display: inline-block;
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  margin-bottom: 1px;
-
-  transition: transform 200ms;
-  ${p => p.left ?
-    'border-right: 6px solid black;'
-    :
-    'border-left: 6px solid black;'
-  }
 `
 const FilterPanelToggle = styled.button`
   margin-bottom: 8px;

@@ -40,6 +40,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-lazyload": "^2.3.0",
+    "react-responsive-carousel": "^3.1.28",
     "styled-components": "^2.2.3",
     "superagent": "^3.8.1"
   },
