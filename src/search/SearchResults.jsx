@@ -8,7 +8,7 @@ export default class SearchResults extends React.PureComponent {
     return (
       <Results>
         {this.props.results.map(result =>
-          <Result href={'/vehicle/' + result.vin} target="_blank" key={result.id}>
+          <Result href={'/vehicle/' + result.vin} key={result.id}>
             <FluidContainer ratio="16:9">
               <LazyLoad true>
                 <Thumb src={result.primary_photo_url} />
