@@ -6,7 +6,7 @@ export default function getHome(req, res, next) {
     PageComponent: HomePage,
     clientScript: 'home.js',
     templateData: {
-      title: req.query.title
+      title: 'FORO'
     }
   })
 }

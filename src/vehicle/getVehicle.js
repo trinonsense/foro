@@ -6,23 +6,15 @@ export default function getVehicle(req, res, next) {
   request
     .get('https://autolist-test.herokuapp.com/api/vehicles/' + req.params.vin)
     .end((err, response) => {
-      if (err) return console.log(err)
+      if (err) return next(err)
       const vehicle = response.body
 
-      res.format({
-        html() {
-          renderReactPage(res, next, {
-            PageComponent: VehiclePage,
-            clientScript: 'vehicle.js',
-            reactData: {vehicle},
-            templateData: {
-              title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`
-            }
-          })
-        },
-
-        json() {
-          res.send(vehicle)
+      renderReactPage(res, next, {
+        PageComponent: VehiclePage,
+        clientScript: 'vehicle.js',
+        reactData: {vehicle},
+        templateData: {
+          title: `${vehicle.year} ${vehicle.make} ${vehicle.model} // FORO`
         }
       })
     })
